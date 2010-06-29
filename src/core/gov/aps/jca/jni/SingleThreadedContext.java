@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: SingleThreadedContext.java,v 1.6 2008-10-27 09:40:16 msekoranja Exp $
+ * $Id: SingleThreadedContext.java,v 1.2 2010/04/01 21:00:26 pchu Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -58,6 +58,34 @@ final public class SingleThreadedContext extends JNIContext implements Configura
     if (Boolean.getBoolean(System.getProperty("jca.use_env")))
     {
 	    setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
+
+	    //override with JCALibrary.properties
+	    if (jca.getProperty( cn+".addr_list", getAddrList() ) != null)
+	    	setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
+	    
+	    if (jca.getProperty( cn+".addr_list", getAddrList() ) != null)
+	    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
+	    
+	    if (jca.getPropertyAsBoolean( cn+".auto_addr_list",  getAutoAddrList() ) != null)
+	    	setAutoAddrList(jca.getPropertyAsBoolean( cn+".auto_addr_list",  getAutoAddrList() ));
+	    
+	    if (jca.getPropertyAsFloat( cn+".connection_timeout", getConnectionTimeout() ) != null)
+	    	setConnectionTimeout(jca.getPropertyAsFloat( cn+".connection_timeout", getConnectionTimeout() ));
+	    
+	    if (jca.getPropertyAsFloat( cn+".beacon_period", getBeaconPeriod() ) != null)
+	    	setBeaconPeriod(jca.getPropertyAsFloat( cn+".beacon_period", getBeaconPeriod() ));
+	    
+	    if (jca.getPropertyAsInt( cn+".repeater_port", getRepeaterPort() ) != null)
+	    	setRepeaterPort(jca.getPropertyAsInt( cn+".repeater_port", getRepeaterPort() ));
+	    
+	    if (jca.getPropertyAsInt( cn+".server_port", getServerPort() ) != null)
+	    	setServerPort(jca.getPropertyAsInt( cn+".server_port", getServerPort() ));
+	    
+	    if (jca.getPropertyAsInt( cn+".max_array_bytes", getMaxArrayBytes() ) != null)
+	    	setMaxArrayBytes(jca.getPropertyAsInt( cn+".max_array_bytes", getMaxArrayBytes() ));
+	    
+	    if (jca.getPropertyAsInt( cn+".priority", getPriority()) != null)
+	    	setPriority(jca.getPropertyAsInt( cn+".priority", getPriority()));
     }
     else
     {
