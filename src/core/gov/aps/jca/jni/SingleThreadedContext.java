@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: SingleThreadedContext.java,v 1.3 2010/06/29 21:41:57 pchu Exp $
+ * $Id: SingleThreadedContext.java,v 1.4 2010/06/29 22:02:28 pchu Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -60,9 +60,6 @@ final public class SingleThreadedContext extends JNIContext implements Configura
 	    setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
 
 	    //override with JCALibrary.properties
-	    if (jca.getProperty( cn+".addr_list" ) != null)
-	    	setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
-	    
 	    if (jca.getProperty( cn+".addr_list" ) != null)
 	    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
 	    

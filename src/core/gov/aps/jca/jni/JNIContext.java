@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: JNIContext.java,v 1.6 2006-11-03 11:01:47 msekoranja Exp $
+ * $Id: JNIContext.java,v 1.2 2010/04/01 21:00:26 pchu Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -71,29 +71,59 @@ abstract public class JNIContext extends Context {
         setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
         ed = jca.getProperty( cn+".event_dispatcher", ed );
     	
-        String tmp = System.getenv("EPICS_CA_ADDR_LIST");
-        if (tmp != null) setAddrList(tmp);
-        
-    	tmp = System.getenv("EPICS_CA_AUTO_ADDR_LIST");
-    	if (tmp != null)
-    		setAutoAddrList(!tmp.equalsIgnoreCase("NO"));
-    	else
-    		setAutoAddrList(true);
-    	
-    	tmp = System.getenv("EPICS_CA_CONN_TMO");
-    	if (tmp != null) setConnectionTimeout(Float.parseFloat(tmp));
-    	
-    	tmp = System.getenv("EPICS_CA_BEACON_PERIOD");
-       	if (tmp != null) setBeaconPeriod(Float.parseFloat(tmp));
-           	
-    	tmp = System.getenv("EPICS_CA_REPEATER_PORT");
-    	if (tmp != null) setRepeaterPort(Integer.parseInt(tmp));
-    	
-    	tmp = System.getenv("EPICS_CA_SERVER_PORT");
-    	if (tmp != null) setServerPort(Integer.parseInt(tmp));
+	    //override with JCALibrary.properties		    
+	    if (jca.getProperty( cn+".addr_list" ) != null)
+	    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
+	    else {
+	        String tmp = System.getenv("EPICS_CA_ADDR_LIST");
+	        if (tmp != null) setAddrList(tmp);	    	
+	    }
+	    
+	    if (jca.getProperty( cn+".auto_addr_list" ) != null)
+	    	setAutoAddrList(jca.getPropertyAsBoolean( cn+".auto_addr_list",  getAutoAddrList() ));
+	    else {
+	    	tmp = System.getenv("EPICS_CA_AUTO_ADDR_LIST");
+	    	if (tmp != null)
+	    		setAutoAddrList(!tmp.equalsIgnoreCase("NO"));
+	    	else
+	    		setAutoAddrList(true);
+	    }
+	    
+	    if (jca.getProperty( cn+".connection_timeout" ) != null)
+	    	setConnectionTimeout(jca.getPropertyAsFloat( cn+".connection_timeout", getConnectionTimeout() ));
+	    else {
+	    	tmp = System.getenv("EPICS_CA_CONN_TMO");
+	    	if (tmp != null) setConnectionTimeout(Float.parseFloat(tmp));
+	    }
+	    
+	    if (jca.getProperty( cn+".beacon_period" ) != null)
+	    	setBeaconPeriod(jca.getPropertyAsFloat( cn+".beacon_period", getBeaconPeriod() ));
+	    else {
+	    	tmp = System.getenv("EPICS_CA_BEACON_PERIOD");
+	       	if (tmp != null) setBeaconPeriod(Float.parseFloat(tmp));
+	    }
+	    
+	    if (jca.getProperty( cn+".repeater_port" ) != null)
+	    	setRepeaterPort(jca.getPropertyAsInt( cn+".repeater_port", getRepeaterPort() ));
+	    else {
+	    	tmp = System.getenv("EPICS_CA_REPEATER_PORT");
+	    	if (tmp != null) setRepeaterPort(Integer.parseInt(tmp));
+	    }
+	    
+	    if (jca.getProperty( cn+".server_port" ) != null)
+	    	setServerPort(jca.getPropertyAsInt( cn+".server_port", getServerPort() ));
+	    else {
+	    	tmp = System.getenv("EPICS_CA_SERVER_PORT");
+	    	if (tmp != null) setServerPort(Integer.parseInt(tmp));
+	    }
+	    
+	    if (jca.getProperty( cn+".max_array_bytes" ) != null)
+	    	setMaxArrayBytes(jca.getPropertyAsInt( cn+".max_array_bytes", getMaxArrayBytes() ));
+	    else {
+	    	tmp = System.getenv("EPICS_CA_MAX_ARRAY_BYTES");
+	    	if (tmp != null) setMaxArrayBytes(Integer.parseInt(tmp));
+	    }
 
-    	tmp = System.getenv("EPICS_CA_MAX_ARRAY_BYTES");
-    	if (tmp != null) setMaxArrayBytes(Integer.parseInt(tmp));
     }
     else
     {

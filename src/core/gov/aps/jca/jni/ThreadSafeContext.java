@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: ThreadSafeContext.java,v 1.3 2010/06/29 21:41:57 pchu Exp $
+ * $Id: ThreadSafeContext.java,v 1.4 2010/06/29 22:02:27 pchu Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -63,10 +63,7 @@ final public class ThreadSafeContext extends JNIContext implements Runnable, Con
 	    {
 		    setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
 		    
-		    //override with JCALibrary.properties
-		    if (jca.getProperty( cn+".addr_list" ) != null)
-		    	setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
-		    
+		    //override with JCALibrary.properties		    
 		    if (jca.getProperty( cn+".addr_list" ) != null)
 		    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
 		    
