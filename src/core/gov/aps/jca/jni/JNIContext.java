@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: JNIContext.java,v 1.2 2010/04/01 21:00:26 pchu Exp $
+ * $Id: JNIContext.java,v 1.3 2010/07/06 17:43:41 pchu Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -71,11 +71,13 @@ abstract public class JNIContext extends Context {
         setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
         ed = jca.getProperty( cn+".event_dispatcher", ed );
     	
+        String tmp;
+        
 	    //override with JCALibrary.properties		    
 	    if (jca.getProperty( cn+".addr_list" ) != null)
 	    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
 	    else {
-	        String tmp = System.getenv("EPICS_CA_ADDR_LIST");
+	        tmp = System.getenv("EPICS_CA_ADDR_LIST");
 	        if (tmp != null) setAddrList(tmp);	    	
 	    }
 	    
