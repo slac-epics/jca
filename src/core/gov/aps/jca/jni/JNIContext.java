@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: JNIContext.java,v 1.4 2010/07/06 17:46:55 pchu Exp $
+ * $Id: JNIContext.java,v 1.6 2006-11-03 11:01:47 msekoranja Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -71,63 +71,29 @@ abstract public class JNIContext extends Context {
         setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
         ed = jca.getProperty( cn+".event_dispatcher", ed );
     	
-        String tmp;
+        String tmp = System.getenv("EPICS_CA_ADDR_LIST");
+        if (tmp != null) setAddrList(tmp);
         
-	    //override with JCALibrary.properties		    
-	    if (jca.getProperty( cn+".addr_list" ) != null && !jca.getProperty( cn+".addr_list" ).equals(""))
-	    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
-	    else {
-	        tmp = System.getenv("EPICS_CA_ADDR_LIST");
-	        if (tmp != null) setAddrList(tmp);	    	
-	    }
-	    
-	    if (jca.getProperty( dcn+".auto_addr_list" ) != null && !jca.getProperty( dcn+".auto_addr_list" ).equals(""))
-	    	setAutoAddrList(jca.getPropertyAsBoolean( dcn+".auto_addr_list",  getAutoAddrList() ));
-	    else {
-	    	tmp = System.getenv("EPICS_CA_AUTO_ADDR_LIST");
-	    	if (tmp != null)
-	    		setAutoAddrList(!tmp.equalsIgnoreCase("NO"));
-	    	else
-	    		setAutoAddrList(true);
-	    }
-	    
-	    if (jca.getProperty( dcn+".connection_timeout" ) != null && !jca.getProperty( dcn+".connection_timeout" ).equals(""))
-	    	setConnectionTimeout(jca.getPropertyAsFloat( dcn+".connection_timeout", getConnectionTimeout() ));
-	    else {
-	    	tmp = System.getenv("EPICS_CA_CONN_TMO");
-	    	if (tmp != null) setConnectionTimeout(Float.parseFloat(tmp));
-	    }
-	    
-	    if (jca.getProperty( dcn+".beacon_period" ) != null && !jca.getProperty( dcn+".beacon_period" ).equals(""))
-	    	setBeaconPeriod(jca.getPropertyAsFloat( dcn+".beacon_period", getBeaconPeriod() ));
-	    else {
-	    	tmp = System.getenv("EPICS_CA_BEACON_PERIOD");
-	       	if (tmp != null) setBeaconPeriod(Float.parseFloat(tmp));
-	    }
-	    
-	    if (jca.getProperty( dcn+".repeater_port" ) != null && !jca.getProperty( dcn+".repeater_port" ).equals(""))
-	    	setRepeaterPort(jca.getPropertyAsInt( dcn+".repeater_port", getRepeaterPort() ));
-	    else {
-	    	tmp = System.getenv("EPICS_CA_REPEATER_PORT");
-	    	if (tmp != null) setRepeaterPort(Integer.parseInt(tmp));
-	    }
-	    
-	    if (jca.getProperty( dcn+".server_port" ) != null && !jca.getProperty( dcn+".server_port" ).equals(""))
-	    	setServerPort(jca.getPropertyAsInt( dcn+".server_port", getServerPort() ));
-	    else {
-	    	tmp = System.getenv("EPICS_CA_SERVER_PORT");
-	    	if (tmp != null) setServerPort(Integer.parseInt(tmp));
-	    }
-	    System.out.println("ca_server_port = " + getServerPort());
-	    
-	    if (jca.getProperty( cn+".max_array_bytes" ) != null && !jca.getProperty( cn+".max_array_bytes" ).equals(""))
-	    	setMaxArrayBytes(jca.getPropertyAsInt( cn+".max_array_bytes", getMaxArrayBytes() ));
-	    else {
-	    	tmp = System.getenv("EPICS_CA_MAX_ARRAY_BYTES");
-	    	if (tmp != null) setMaxArrayBytes(Integer.parseInt(tmp));
-	    }
-	    System.out.println("max_array_bytes = " + getMaxArrayBytes());
+    	tmp = System.getenv("EPICS_CA_AUTO_ADDR_LIST");
+    	if (tmp != null)
+    		setAutoAddrList(!tmp.equalsIgnoreCase("NO"));
+    	else
+    		setAutoAddrList(true);
+    	
+    	tmp = System.getenv("EPICS_CA_CONN_TMO");
+    	if (tmp != null) setConnectionTimeout(Float.parseFloat(tmp));
+    	
+    	tmp = System.getenv("EPICS_CA_BEACON_PERIOD");
+       	if (tmp != null) setBeaconPeriod(Float.parseFloat(tmp));
+           	
+    	tmp = System.getenv("EPICS_CA_REPEATER_PORT");
+    	if (tmp != null) setRepeaterPort(Integer.parseInt(tmp));
+    	
+    	tmp = System.getenv("EPICS_CA_SERVER_PORT");
+    	if (tmp != null) setServerPort(Integer.parseInt(tmp));
 
+    	tmp = System.getenv("EPICS_CA_MAX_ARRAY_BYTES");
+    	if (tmp != null) setMaxArrayBytes(Integer.parseInt(tmp));
     }
     else
     {
@@ -304,10 +270,6 @@ abstract public class JNIContext extends Context {
 
   public int getMaxArrayBytes() {
     return _max_array_bytes;
-  }
-  
-  public void setJcaUseEnv( boolean useEnv) {
-    _jca_use_env = useEnv;
   }
   
   public boolean getJcaUseEnv() {

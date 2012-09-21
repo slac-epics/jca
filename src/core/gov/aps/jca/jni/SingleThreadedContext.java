@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: SingleThreadedContext.java,v 1.4 2010/06/29 22:02:28 pchu Exp $
+ * $Id: SingleThreadedContext.java,v 1.6 2008-10-27 09:40:16 msekoranja Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -58,29 +58,6 @@ final public class SingleThreadedContext extends JNIContext implements Configura
     if (Boolean.getBoolean(System.getProperty("jca.use_env")))
     {
 	    setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
-
-	    //override with JCALibrary.properties
-	    if (jca.getProperty( cn+".addr_list" ) != null)
-	    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
-	    
-	    if (jca.getProperty( cn+".auto_addr_list" ) != null)
-	    	setAutoAddrList(jca.getPropertyAsBoolean( cn+".auto_addr_list",  getAutoAddrList() ));
-	    
-	    if (jca.getProperty( cn+".connection_timeout" ) != null)
-	    	setConnectionTimeout(jca.getPropertyAsFloat( cn+".connection_timeout", getConnectionTimeout() ));
-	    
-	    if (jca.getProperty( cn+".beacon_period" ) != null)
-	    	setBeaconPeriod(jca.getPropertyAsFloat( cn+".beacon_period", getBeaconPeriod() ));
-	    
-	    if (jca.getProperty( cn+".repeater_port" ) != null)
-	    	setRepeaterPort(jca.getPropertyAsInt( cn+".repeater_port", getRepeaterPort() ));
-	    
-	    if (jca.getProperty( cn+".server_port" ) != null)
-	    	setServerPort(jca.getPropertyAsInt( cn+".server_port", getServerPort() ));
-	    
-	    if (jca.getProperty( cn+".max_array_bytes" ) != null)
-	    	setMaxArrayBytes(jca.getPropertyAsInt( cn+".max_array_bytes", getMaxArrayBytes() ));
-	    
     }
     else
     {

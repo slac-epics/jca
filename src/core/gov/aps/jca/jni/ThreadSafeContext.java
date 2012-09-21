@@ -16,7 +16,7 @@
  *      Argonne National Laboratory
  *
  *
- * $Id: ThreadSafeContext.java,v 1.4 2010/06/29 22:02:27 pchu Exp $
+ * $Id: ThreadSafeContext.java,v 1.7 2008-10-27 09:40:16 msekoranja Exp $
  *
  * Modification Log:
  * 01. 05/07/2003  erb  initial development
@@ -62,29 +62,6 @@ final public class ThreadSafeContext extends JNIContext implements Runnable, Con
 	    if (Boolean.getBoolean("jca.use_env"))
 	    {
 		    setPreemptiveCallback(jca.getPropertyAsBoolean( cn+ ".preemptive_callback", getPreemptiveCallback() ));
-		    
-		    //override with JCALibrary.properties		    
-		    if (jca.getProperty( cn+".addr_list" ) != null)
-		    	setAddrList(jca.getProperty( cn+".addr_list", getAddrList() ));
-		    
-		    if (jca.getProperty( cn+".auto_addr_list" ) != null)
-		    	setAutoAddrList(jca.getPropertyAsBoolean( cn+".auto_addr_list",  getAutoAddrList() ));
-		    
-		    if (jca.getProperty( cn+".connection_timeout" ) != null)
-		    	setConnectionTimeout(jca.getPropertyAsFloat( cn+".connection_timeout", getConnectionTimeout() ));
-		    
-		    if (jca.getProperty( cn+".beacon_period" ) != null)
-		    	setBeaconPeriod(jca.getPropertyAsFloat( cn+".beacon_period", getBeaconPeriod() ));
-		    
-		    if (jca.getProperty( cn+".repeater_port" ) != null)
-		    	setRepeaterPort(jca.getPropertyAsInt( cn+".repeater_port", getRepeaterPort() ));
-		    
-		    if (jca.getProperty( cn+".server_port" ) != null)
-		    	setServerPort(jca.getPropertyAsInt( cn+".server_port", getServerPort() ));
-		    
-		    if (jca.getProperty( cn+".max_array_bytes" ) != null)
-		    	setMaxArrayBytes(jca.getPropertyAsInt( cn+".max_array_bytes", getMaxArrayBytes() ));
-		    
 	    }
 	    else
 	    {
@@ -498,6 +475,10 @@ final public class ThreadSafeContext extends JNIContext implements Runnable, Con
 					} 
 					catch ( JNIException cae ) {
 						request.setException( cae );
+					}
+					catch ( Throwable th ) {
+						  // catch all exception not to break call this thread, report exception
+						  new RuntimeException("Unexpected exception caught.", th).printStackTrace();
 					}
 					request.notifyAll();
 				}
