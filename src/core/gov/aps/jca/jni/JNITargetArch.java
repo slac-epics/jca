@@ -15,11 +15,11 @@ public class JNITargetArch {
   static public String getTargetArch() {
 
     String osname=System.getProperty( "os.name", "" );
+    String osversionstring=System.getProperty( "os.version", "" );
     float osversion=0;
 
     try {
-      osversion=NumberFormat.getInstance().parse( System.getProperty(
-        "os.version" , "" ) ).floatValue();
+      osversion=NumberFormat.getInstance().parse( osversionstring ).floatValue();
     } catch( ParseException pe ) {
     }
     String osarch=System.getProperty( "os.arch", "" );
@@ -43,11 +43,18 @@ public class JNITargetArch {
         return "darwin-x86";
       }
     } else if( osname.equals( "Linux" ) ) {
+      String archName = "linux";
+      if ( osversionstring.contains(".el7.") ) {
+        archName = "rhel7";
+      }
+      if ( osversionstring.contains(".el6.") ) {
+        archName = "rhel6";
+      }
       if( osarch.equals( "x86" ) ) {
-        return "linux-x86";
+        return archName + "-x86";
       }
       else if ( osarch.equals("x86_64") || osarch.equals("amd64")) {
-        return "linux-x86_64";
+        return archName + "-x86_64";
       }
     } else if( osname.startsWith( "Win" ) ) {
       return "win32-x86";
