@@ -1,6 +1,11 @@
 #
 # RELEASE_NOTES
 #
+R2.3.7-0.2.0	2018-09-05 Hugo Slepicka
+        Removed hardcoded paths.
+        Using Java as jdk1.8.0_181
+	Using Ant as apache-ant-1.7.0
+
 R2.3.7-0.1.2	2018-04-09 Bruce Hill
 	Added javalib to .gitignore and made default install to TOP for unbundled build.
 	Also added a Makefile front end which converts to ant build
