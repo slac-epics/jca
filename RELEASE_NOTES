@@ -1,6 +1,10 @@
 #
 # RELEASE_NOTES
 #
+R2.3.7-0.3.0    2024-10-01 Jeremy Lorelli
+    Run ant based on path relative to $PACKAGE_SITE_TOP
+    Added support for rhel9 and rhel8 builds
+
 R2.3.7-0.2.0	2018-09-05 Hugo Slepicka
         Removed hardcoded paths.
         Using Java as jdk1.8.0_181
