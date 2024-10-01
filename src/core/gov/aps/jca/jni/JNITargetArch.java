@@ -44,6 +44,12 @@ public class JNITargetArch {
       }
     } else if( osname.equals( "Linux" ) ) {
       String archName = "linux";
+      if ( osversionstring.contains(".el9") ) {
+        archName = "rhel9";
+      }
+      if ( osversionstring.contains(".el8") ) {
+        archName = "rhel8";
+      }
       if ( osversionstring.contains(".el7.") ) {
         archName = "rhel7";
       }
